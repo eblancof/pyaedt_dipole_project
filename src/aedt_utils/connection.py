@@ -1,13 +1,21 @@
 from pyaedt import Desktop, Hfss
 
 
-def launch_aedt(aedt_version="2024.2", non_graphical=False, new_session=True, use_student_version=True):
+def launch_aedt(aedt_version="2024.2", non_graphical=False, new_session=True, use_student_version=True, grpc_address=None, grpc_port=None):
     """Launches or connects to an AEDT Desktop session."""
     try:
-        desktop = Desktop(specified_version=aedt_version,
-                          non_graphical=non_graphical,
-                          new_desktop_session=new_session,
-                          student_version=use_student_version)
+        if grpc_address and grpc_port:
+            # Connect to an existing AEDT session using gRPC
+            desktop = Desktop(machine=grpc_address,
+                              port=grpc_port,
+                              non_graphical=non_graphical,
+                              new_desktop_session=new_session,
+                              student_version=use_student_version)
+        else:
+            desktop = Desktop(specified_version=aedt_version,
+                              non_graphical=non_graphical,
+                              new_desktop_session=new_session,
+                              student_version=use_student_version)
         print("AEDT Desktop Initialized")
         return desktop
     except Exception as e:
@@ -18,10 +26,10 @@ def launch_aedt(aedt_version="2024.2", non_graphical=False, new_session=True, us
 def initialize_hfss(desktop, project_name, design_name, solution_type, aedt_version):
     """Initializes or connects to an HFSS design."""
     try:
-        hfss = Hfss(projectname=project_name,
-                    designname=design_name,
+        hfss = Hfss(project=project_name,
+                    design=design_name,
                     solution_type=solution_type,
-                    specified_version=aedt_version,
+                    version=aedt_version,
                     # Ensure connection to the correct desktop
                     aedt_process_id=desktop.aedt_process_id)
         print(
