@@ -1,2 +1,7 @@
 /batch.log
-/main.py
+
+# VS Code
+.vscode/
+
+# Python cache
+__pycache__/
