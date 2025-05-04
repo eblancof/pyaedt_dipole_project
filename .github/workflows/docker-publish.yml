@@ -3,6 +3,7 @@ name: Docker Image CI
 on:
   push:
     branches: [ "main" ] # Or whichever branch you want to trigger the build
+  workflow_dispatch: # Allows manual triggering from the Actions tab
 
 jobs:
   build-and-push:
