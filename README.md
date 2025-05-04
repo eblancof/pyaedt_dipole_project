@@ -34,7 +34,7 @@ The application can connect to a local AEDT instance or a remote instance via gR
 
 1.  **Clone the repository:**
     ```bash
-    git clone <repository-url>
+    git clone https://github.com/eblancof/pyaedt_dipole_project.git
     cd pyaedt_dipole_project
     ```
 2.  **Install Python dependencies:**
@@ -68,6 +68,6 @@ The application can connect to a local AEDT instance or a remote instance via gR
 
 ## Connecting to AEDT from Docker
 
--   **Local AEDT:** When using `network_mode: host` in `docker-compose.yml`, the container shares the host's network stack. You can typically use `localhost` or the machine's IP address within the Streamlit app's gRPC settings if AEDT is running locally with gRPC enabled. For standard local non-gRPC connections, PyAEDT within the container should find the local AEDT installation if environment variables are set correctly or if AEDT is in the default path *from the host's perspective*.
+-   **Local AEDT:** When using `network_mode: host` in `docker-compose.yml`, the container shares the host's network stack. You can typically use `localhost` or the machine's IP address within the Streamlit app's gRPC settings if AEDT is running locally with gRPC enabled. For standard local non-gRPC connections, PyAEDT within the container should find the local AEDT installation if environment variables are set correctly or if AEDT is in the default path *from the host's perspective* and if **pyaedt** python module is installed in the program.
 -   **Remote AEDT (gRPC):** Configure the gRPC Machine Address and Port in the Streamlit sidebar to point to the machine running AEDT with gRPC enabled. Ensure network connectivity and firewall rules allow the connection from the Docker container (or the host machine if using `network_mode: host`) to the remote AEDT gRPC server.
 
