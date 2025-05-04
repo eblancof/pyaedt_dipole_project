@@ -9,18 +9,9 @@ The application can connect to a local AEDT instance or a remote instance via gR
 - `streamlit_app.py`: The main Streamlit application script.
 - `requirements.txt`: Python dependencies for the project.
 - `Dockerfile`: Defines the Docker image for the Streamlit application environment.
-- `docker-compose.yml`: (To be created) Configuration for running the application using Docker Compose.
+- `docker-compose.yml`: Configuration for running the application using Docker Compose.
 - `src/`: Source code directory containing the simulation logic.
-  - `aedt_utils/`: Utilities for AEDT connection management (local and gRPC).
-    - `connection.py`: Handles Desktop initialization and release.
-  - `hfss_simulation/`: Modules for setting up the HFSS simulation.
-    - `geometry.py`: Defines parameters and creates the dipole geometry.
-    - `boundaries.py`: Creates radiation boundaries.
-    - `excitations.py`: Creates the lumped port excitation.
-    - `analysis.py`: Configures and runs the simulation setup and frequency sweep.
-  - `plotting/`: Utilities for post-processing and plotting results using Plotly.
-    - `plotly_utils.py`: Functions to generate interactive S11 and 3D radiation pattern plots.
-- `.github/workflows/`: (Optional) Contains GitHub Actions workflows (e.g., for automated Docker builds).
+- `.github/workflows/`: Contains GitHub Actions workflows for automated Docker builds.
 
 ## Features
 
@@ -28,8 +19,6 @@ The application can connect to a local AEDT instance or a remote instance via gR
 - Support for connecting to local or remote (gRPC) AEDT instances.
 - Step-by-step simulation workflow: Initialize AEDT, Create Design, Run Simulation, Release AEDT.
 - Interactive visualization of S11 (Return Loss) and 3D radiation patterns.
-- Dockerized environment for consistent setup.
-- Docker Compose support for simplified container management.
 
 ## How to Run
 
@@ -65,7 +54,7 @@ The application can connect to a local AEDT instance or a remote instance via gR
 1.  **Ensure Docker and Docker Compose are running.**
 2.  **Build and run the container:** (Make sure `docker-compose.yml` exists)
     ```bash
-    docker-compose up --build
+    docker compose up --build
     ```
     *   The `--build` flag is only needed the first time or when code/dependencies change.
     *   This command will build the Docker image (if not already built) and start the Streamlit service defined in `docker-compose.yml`.
@@ -75,7 +64,7 @@ The application can connect to a local AEDT instance or a remote instance via gR
 ## Docker Configuration Details
 
 -   **Dockerfile:** Sets up a Python 3.12 environment, installs dependencies from `requirements.txt`, and copies the application code. It exposes the default port and sets the default command to run the Streamlit app.
--   **docker-compose.yml:** (To be created) Defines the `streamlit-app` service based on the `Dockerfile`. It maps the container's default port to the host's default port. Crucially, it should configure `network_mode: host` to allow the container to directly access the host machine's network, enabling connections to a locally running AEDT instance or other services on the local network (like a gRPC server running on the host).
+-   **docker-compose.yml:** Defines the `streamlit-app` service based on the `Dockerfile`. It maps the container's default port to the host's default port. Crucially, it should configure `network_mode: host` to allow the container to directly access the host machine's network, enabling connections to a locally running AEDT instance or other services on the local network (like a gRPC server running on the host).
 
 ## Connecting to AEDT from Docker
 
