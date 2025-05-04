@@ -96,7 +96,7 @@ if not aedt_initialized:
                 st.success("AEDT initialized successfully.")
                 st.rerun() # Rerun to update UI state
             except Exception as e:
-                st.error(f"AEDT Initialization failed: {e}")
+                st.error("Cannot connect to AEDT. Please check your settings or local installation.")
                 if 'desktop' in st.session_state: del st.session_state.desktop
 else:
     st.sidebar.success(f"✅ 1. AEDT Initialized ({st.session_state.get('project_name', 'Unknown Project')})")

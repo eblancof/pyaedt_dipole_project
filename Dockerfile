@@ -11,6 +11,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application code
 COPY . .
 
-
-# Command to run the Streamlit app
-CMD ["streamlit", "run", "streamlit_app.py", "--server.port=${PORT}", "--server.address=0.0.0"]
+# Port will be specified in docker-compose.yml
+CMD ["streamlit", "run", "streamlit_app.py", "--server.address=0.0.0.0"]
