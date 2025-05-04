@@ -3,6 +3,11 @@ name: Docker Image CI
 on:
   push:
     branches: [ "main" ] # Or whichever branch you want to trigger the build
+    paths:
+      - 'Dockerfile'
+      - 'docker-compose.yml'
+      - 'src/**' # Trigger if anything changes in the src directory or subdirectories
+      - '.github/workflows/docker-publish.yml' # Also trigger if the workflow itself changes
   workflow_dispatch: # Allows manual triggering from the Actions tab
 
 jobs:
