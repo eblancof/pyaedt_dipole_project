@@ -12,4 +12,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Port will be specified in docker-compose.yml
-CMD ["streamlit", "run", "streamlit_app.py", "--server.address=0.0.0.0"]
+CMD ["streamlit", "run", "src/streamlit_app.py", "--server.address=0.0.0.0"]

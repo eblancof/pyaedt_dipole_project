@@ -6,7 +6,7 @@ The application can connect to a local AEDT instance or a remote instance via gR
 
 ## Structure
 
-- `streamlit_app.py`: The main Streamlit application script.
+- `src/streamlit_app.py`: The main Streamlit application script.
 - `requirements.txt`: Python dependencies for the project.
 - `Dockerfile`: Defines the Docker image for the Streamlit application environment.
 - `docker-compose.yml`: Configuration for running the application using Docker Compose.
@@ -43,7 +43,7 @@ The application can connect to a local AEDT instance or a remote instance via gR
     ```
 3.  **Run the Streamlit app:**
     ```bash
-    streamlit run streamlit_app.py --server.port 8080
+    streamlit run src/streamlit_app.py --server.port 8080
     ```
 4.  Open your web browser and navigate to the URL provided by Streamlit (usually `http://localhost:8080`).
 5.  Configure the connection type (Local or gRPC) and simulation parameters in the sidebar.
