@@ -9,12 +9,12 @@ def launch_aedt(aedt_version="2024.2", non_graphical=False, new_session=True, us
             desktop = Desktop(machine=grpc_address,
                               port=grpc_port,
                               non_graphical=non_graphical,
-                              new_desktop_session=new_session,
+                              new_desktop=new_session,
                               student_version=use_student_version)
         else:
-            desktop = Desktop(specified_version=aedt_version,
+            desktop = Desktop(version=aedt_version,
                               non_graphical=non_graphical,
-                              new_desktop_session=new_session,
+                              new_desktop=new_session,
                               student_version=use_student_version)
         print("AEDT Desktop Initialized")
         return desktop

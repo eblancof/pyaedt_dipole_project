@@ -4,7 +4,7 @@ def create_radiation_boundary(hfss, freq_ghz, offset):
     # The offset parameter is assumed to be lambda/4
     try:
         hfss.create_open_region(frequency=f"{freq_ghz}GHz",
-                                Boundary="Radiation",
+                                boundary="Radiation",
                                 # Adjust size if needed via offset argument if available or manual box creation
                                 apply_infinite_ground=False)
         print("Radiation boundary condition created.")
