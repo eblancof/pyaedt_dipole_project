@@ -20,13 +20,10 @@ from hfss_simulation.boundaries import create_radiation_boundary
 from hfss_simulation.excitations import create_lumped_port
 from hfss_simulation.analysis import setup_analysis, setup_frequency_sweep, run_analysis
 from plotting.plotly_utils import interactive_s11, interactive_3d_pattern
-from ui.sidebar_params import dipole_sidebar_params, microstrip_sidebar_params
+from ui.sidebar_params import dipole_sidebar_params
 
 # --- Sidebar ---
 st.sidebar.title("Simulation Setup")
-
-# Antenna type selection
-antenna_type = st.sidebar.selectbox("Antenna Type", ("Dipole", "Microstrip"), index=0)
 
 # Connection mode selection
 connection_mode = st.sidebar.radio("Connection Mode", ("Local", "gRPC"), index=0)
@@ -42,24 +39,16 @@ non_graphical = st.sidebar.checkbox("Non-graphical Mode", False)
 
 # Modifiable parameters
 st.sidebar.subheader("Geometry & Frequency")
-if antenna_type == "Dipole":
-    default_project_name = DEFAULT_PROJECT_NAME
-    default_design_name = DEFAULT_DESIGN_NAME
-elif antenna_type == "Microstrip":
-    default_project_name = "MicrostripSimulation"
-    default_design_name = "HFSS_Microstrip"
-else:
-    default_project_name = DEFAULT_PROJECT_NAME
-    default_design_name = DEFAULT_DESIGN_NAME
+
+default_project_name = DEFAULT_PROJECT_NAME
+default_design_name = DEFAULT_DESIGN_NAME
 
 project_name = st.sidebar.text_input("Project Name", default_project_name)
 design_name = st.sidebar.text_input("Design Name", default_design_name)
 freq_ghz = st.sidebar.number_input("Design Frequency (GHz)", value=DEFAULT_FREQ_GHZ, min_value=0.1, step=0.1, format="%.2f")
 
-if antenna_type == "Dipole":
-    dipole_params = dipole_sidebar_params(freq_ghz)
-elif antenna_type == "Microstrip":
-    microstrip_params = microstrip_sidebar_params(freq_ghz)
+dipole_params = dipole_sidebar_params(freq_ghz)
+
 
 
 # --- Main App Area ---
