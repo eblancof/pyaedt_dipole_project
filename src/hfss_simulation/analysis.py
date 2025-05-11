@@ -1,7 +1,7 @@
 def setup_analysis(hfss, freq_ghz, setup_name="DefaultSetup", max_passes=10, min_converged_passes=2):
     """Configures the HFSS analysis setup."""
     try:
-        setup = hfss.create_setup(name=setup_name,
+        hfss.create_setup(name=setup_name,
                                   setup_type="HFSSDriven",  # Standard solution type
                                   Frequency=f"{freq_ghz}GHz",
                                   MaximumPasses=max_passes,
@@ -18,11 +18,11 @@ def setup_frequency_sweep(hfss, setup_name, freq_ghz, sweep_name="DefaultSweep",
                           sweep_type="Interpolating"):
     """Configures the frequency sweep."""
     try:
-        sweep = hfss.create_linear_count_sweep(setupname=setup_name,
-                                               unit="GHz",
-                                               sweepname=sweep_name,
-                                               freqstart=freq_ghz * start_freq_factor,
-                                               freqstop=freq_ghz * stop_freq_factor,
+        hfss.create_linear_count_sweep(setup=setup_name,
+                                               units="GHz",
+                                               name=sweep_name,
+                                               start_frequency=freq_ghz * start_freq_factor,
+                                               stop_frequency=freq_ghz * stop_freq_factor,
                                                num_of_freq_points=point_count,
                                                sweep_type=sweep_type)
         print(f"Frequency sweep '{sweep_name}' created.")

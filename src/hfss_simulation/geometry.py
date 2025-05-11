@@ -33,26 +33,26 @@ def create_dipole_geometry(hfss, params):
     gap = params["gap"]
 
     # Arm 1 (+Z)
-    arm1 = hfss.modeler.create_cylinder(cs_axis="Z",
-                                        position=[0, 0, gap / 2],
+    arm1 = hfss.modeler.create_cylinder(orientation="Z",
+                                        origin=[0, 0, gap / 2],
                                         radius=wire_radius,
                                         height=arm_length,
                                         name="Dipole_Arm1",
-                                        matname="pec")  # Assign PEC directly
+                                        material="pec")  # Assign PEC directly
 
     # Arm 2 (-Z)
-    arm2 = hfss.modeler.create_cylinder(cs_axis="Z",
-                                        position=[0, 0, -gap / 2 - arm_length],
+    arm2 = hfss.modeler.create_cylinder(orientation="Z",
+                                        origin=[0, 0, -gap / 2 - arm_length],
                                         radius=wire_radius,
                                         height=arm_length,
                                         name="Dipole_Arm2",
-                                        matname="pec")
+                                        material="pec")
 
     # Sheet for the port (Rectangle in YZ plane)
     port_sheet = hfss.modeler.create_rectangle(orientation="YZ",
-                                               position=[
+                                               origin=[
                                                    0, -wire_radius, -gap / 2],
-                                               dimension_list=[
+                                               sizes=[
                                                    wire_radius * 2, gap],
                                                name="Port_Sheet")
 

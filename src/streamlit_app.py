@@ -3,6 +3,7 @@ import os
 import sys
 import time # For potential delays if needed, or just structure
 import numpy as np # For default calculation
+from constants import DEFAULT_AEDT_VERSION, DEFAULT_PROJECT_NAME, DEFAULT_DESIGN_NAME, DEFAULT_FREQ_GHZ, SOLUTION_TYPE, MACHINE_ADDRESS, GRPC_PORT
 
 # --- Page Configuration (Set Layout to Wide) ---
 st.set_page_config(layout="wide")
@@ -19,23 +20,7 @@ from hfss_simulation.boundaries import create_radiation_boundary
 from hfss_simulation.excitations import create_lumped_port
 from hfss_simulation.analysis import setup_analysis, setup_frequency_sweep, run_analysis
 from plotting.plotly_utils import interactive_s11, interactive_3d_pattern
-
-# --- Constants ---
-DEFAULT_AEDT_VERSION = "2024.2"
-DEFAULT_PROJECT_NAME = "DipoleSimulation"
-DEFAULT_DESIGN_NAME = "HFSS_Dipole"
-DEFAULT_FREQ_GHZ = 1.0
-SOLUTION_TYPE = "Terminal" # Hardcoded as per request
-MACHINE_ADDRESS = None
-GRPC_PORT = None
-
-# --- Helper Functions ---
-def calculate_default_arm_length(freq_ghz):
-    """Calculate default arm length based on frequency."""
-    if freq_ghz <= 0:
-        return 0.0
-    lambda_mm = 300 / freq_ghz
-    return lambda_mm / 4 # arm_length = half of half-wavelength
+from ui.sidebar_params import dipole_sidebar_params
 
 # --- Sidebar ---
 st.sidebar.title("Simulation Setup")
@@ -54,21 +39,16 @@ non_graphical = st.sidebar.checkbox("Non-graphical Mode", False)
 
 # Modifiable parameters
 st.sidebar.subheader("Geometry & Frequency")
-project_name = st.sidebar.text_input("Project Name", DEFAULT_PROJECT_NAME)
-design_name = st.sidebar.text_input("Design Name", DEFAULT_DESIGN_NAME)
+
+default_project_name = DEFAULT_PROJECT_NAME
+default_design_name = DEFAULT_DESIGN_NAME
+
+project_name = st.sidebar.text_input("Project Name", default_project_name)
+design_name = st.sidebar.text_input("Design Name", default_design_name)
 freq_ghz = st.sidebar.number_input("Design Frequency (GHz)", value=DEFAULT_FREQ_GHZ, min_value=0.1, step=0.1, format="%.2f")
 
-# Calculate default arm length based on current frequency
-default_arm_length = calculate_default_arm_length(freq_ghz)
-# Allow user override for arm length
-arm_length_mm = st.sidebar.number_input(
-    "Dipole Arm Length (mm)",
-    value=default_arm_length,
-    min_value=0.1,
-    step=0.1,
-    format="%.2f",
-    help=f"Defaults to lambda/4 ({default_arm_length:.2f} mm for {freq_ghz} GHz). Modify if needed."
-)
+dipole_params = dipole_sidebar_params(freq_ghz)
+
 
 
 # --- Main App Area ---
@@ -177,7 +157,7 @@ if aedt_initialized:
             
 
                 status_placeholders['params'].info("   Defining Parameters...")
-                params = define_parameters(freq_ghz, arm_length_override_mm=arm_length_mm)
+                params = define_parameters(freq_ghz, arm_length_override_mm=dipole_params['arm_length_mm'])
                 st.session_state.params = params
                 status_placeholders['params'].empty()
 
@@ -191,7 +171,7 @@ if aedt_initialized:
                 status_placeholders['boundaries'].empty()
 
                 status_placeholders['excitations'].info("   Creating Excitations...")
-                port = create_lumped_port(hfss, refs['port_sheet'], refs['arm1'].name, impedance=50)
+                create_lumped_port(hfss, refs['port_sheet'], refs['arm1'].name, impedance=50)
                 status_placeholders['excitations'].empty()
 
                 status_placeholders['analysis_setup'].info("   Setting up Analysis...")
